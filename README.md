@@ -5,6 +5,21 @@
 1. Write a query to find the top 3 products with the highest total sales (based on units 
 sold) from the train table.
 
+```sql
+SELECT item_nbr, SUM(units) AS total_units
+FROM train
+GROUP BY item_nbr
+ORDER BY total_units DESC
+LIMIT 3;
+
+-- Explanation:
+-- SUM(units) → calculates total units sold for each product.
+-- GROUP BY item_nbr → groups the sales by each product.
+-- ORDER BY total_units DESC → sorts products from highest to lowest total units sold.
+-- LIMIT 3 → returns only the top 3 products.
+```
+<img width="814" height="314" alt="image" src="https://github.com/user-attachments/assets/0fd93520-fdb5-4858-a8d9-f3060944d4ae" />
+
 2. Using the key table, write a query to join the sales data (train) with the correct 
 weather station using store_nbr.
 
