@@ -22,6 +22,23 @@ LIMIT 3;
 
 2. Using the key table, write a query to join the sales data (train) with the correct 
 weather station using store_nbr.
+```sql
+SELECT t.date,
+       t.store_nbr,
+       t.item_nbr,
+       t.units,
+       k.station_nbr
+FROM train t JOIN key k ON t.store_nbr = k.store_nbr;
+
+-- Explanation:
+-- JOIN key k ON t.store_nbr = k.store_nbr
+-- Maps each store in train to its corresponding weather station.
+-- Columns selected:
+-- t.date, t.store_nbr, t.item_nbr, t.units → original sales data
+-- k.station_nbr → the weather station associated with each store
+```
+<img width="1860" height="1244" alt="image" src="https://github.com/user-attachments/assets/dbbe893f-0f46-4581-a198-0f6c6b7bb5cd" />
+
 
 3. Write a query to return daily sales and average temperature (tavg) for one of the top 3 
 products.
