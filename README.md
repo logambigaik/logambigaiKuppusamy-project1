@@ -42,6 +42,29 @@ FROM train t JOIN key k ON t.store_nbr = k.store_nbr;
 
 3. Write a query to return daily sales and average temperature (tavg) for one of the top 3 
 products.
+```sql
+SELECT 
+    t.date,
+    t.item_nbr,
+    SUM(t.units) AS daily_units,
+    AVG(w.tavg) AS avg_temperature
+FROM train t
+JOIN key k 
+    ON t.store_nbr = k.store_nbr
+JOIN weather w 
+    ON k.station_nbr = w.station_nbr 
+   AND t.date = w.date
+WHERE t.item_nbr IN (
+    SELECT item_nbr 
+    FROM train
+    GROUP BY item_nbr
+    ORDER BY SUM(units) DESC
+    LIMIT 3
+)
+GROUP BY t.item_nbr,t.date
+ORDER BY t.date DESC, t.item_nbr DESC;
+```
+<img width="780" height="1110" alt="image" src="https://github.com/user-attachments/assets/46581779-c632-4566-a149-2f445b151ab7" />
 
 
 ### 4.2. Section B: R Programming 
