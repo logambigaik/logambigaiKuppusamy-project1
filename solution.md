@@ -56,3 +56,19 @@ Percentile trimming (e.g., capping at 129) prevents the top 1% from dominating.
 Domain-informed rule (say, flag >300 units) provides a business check even if no 500+ values exist.
 Percentile trimming (e.g., capping at 129) prevents the top 1% from dominating.
   
+📄 Report-Style Justification
+
+The sales data for the top-selling item shows a highly skewed distribution, with a median of 0 units/day, 75th percentile of 50 units, 99th percentile of 129 units, and a maximum of 392 units. This indicates that most days have low or no sales, while a few days exhibit unusually high sales volumes.
+
+To handle this imbalance, several preprocessing approaches were applied:
+
+Log Transformation:
+A log1p transformation compresses the long right tail and stabilizes variance, making the distribution more symmetric. This is appropriate since the original data is zero-inflated and heavily skewed.
+
+Percentile Trimming:
+Values above the 99th percentile (>129 units) were trimmed, affecting ~401 rows (≈0.96% of data). This removes extreme high outliers while preserving 99% of the observations, ensuring that rare spikes do not dominate model training.
+
+Domain-Informed Threshold:
+From a business perspective, sales above 300 units/day are implausibly high for a single store-day. Only 1 such case (0.002% of data) was found, and flagging it provides a safeguard against data errors or extraordinary events (e.g., bulk purchases, promotions).
+
+Together, these techniques ensure the dataset is robust for modeling: the log transform addresses skewness, percentile trimming removes statistical extremes, and domain thresholds incorporate business logic to handle anomalies.
